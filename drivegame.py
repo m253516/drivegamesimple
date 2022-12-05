@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 
-size = width, height = (800,800)
+size = width, height = (400,800)
 road_w = int(width/1.6)
 roadmark_w = int(width/80)
 
@@ -19,10 +19,13 @@ grey = (50, 50, 50)
 pygame.draw.rect(
     screen, grey, (width/2-road_w/2, 0, road_w, height))
 
-pygame.draw.rect((screen, (255, 240, 60), (width/2 - roadmark_w/2), 0, roadmark_w, height))
+pygame.draw.rect(screen, (255, 240, 60), (width/2 - roadmark_w/2, 0, roadmark_w, height))
 
-pygame.draw.rect((screen, (255, 255, 255), (width/2 - roadm_w/2), 0, roadmark_w, height))
+pygame.draw.rect(screen, (255, 255, 255), (width/2 - road_w/2 + roadmark_w*2, 0, roadmark_w, height))
 
+pygame.draw.rect(screen, (255, 255, 255), (width/2 + road_w/2 - roadmark_w*2, 0, roadmark_w, height))
+
+pygame.draw.rect(screen, (255, 255, 255), (width/2 + road_w/2 - roadmark_w*2, 0, roadmark_w, height))
 # apply changes
 pygame.display.update()
 
