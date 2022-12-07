@@ -1,9 +1,13 @@
 import pygame
 from pygame.locals import *
+import random
 
 size = width, height = (400,800)
 road_w = int(width/1.6)
 roadmark_w = int(width/80)
+right_lane = width/2 + road_w/4
+left_lane = width/2 - road_w/4
+speed = 1
 
 
 pygame.init()
@@ -21,18 +25,34 @@ pygame.display.update()
 # load player vehicle
 car = pygame.image.load('images/car_player.png')
 car_loc = car.get_rect()
-car_loc.center = width/2 + road_w/4, height*0.8
+car_loc.center = right_lane, height*0.8
 
 # load enemy vehicle
 car2 = pygame.image.load('images/car_player.png')
 car2_loc = car.get_rect()
-car2_loc.center = width/2 - road_w/4, height*0.2
+car2_loc.center = left_lane, height*0.2
 
-
+counter = 0
 # game loop
 while running:
-    # animate enemy vehicles
-    car2_loc[1] += 1 
+    counter += 1
+    if counter == 5000:
+        speed += 0.2
+        counter = 0
+        print("level up", speed)
+    # animate enemy vehicle
+    car2_loc[1] += speed
+    if car2_loc[1] > height:
+        if random.randint(0,1) == 0:
+            car2_loc.center = right_lane, -200
+        else:
+            car2_loc.center = left_lane, -200
+
+    # end game
+    if car_loc[0] == car2_loc[0] and car2_loc[1] > car_loc[1] - 250:
+        print("Game Over")
+        break
+
     # event listeners
     for event in pygame.event.get():
         if event.type == QUIT:
