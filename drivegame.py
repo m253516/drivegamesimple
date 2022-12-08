@@ -19,10 +19,6 @@ right_lane = width/2 + road_w/4
 left_lane = width/2 - road_w/4
 speed = 1
 
-
-
-
-
 # apply changes
 pygame.display.update()
 
@@ -39,6 +35,9 @@ car2_loc.center = left_lane, height*0.2
 # load button images
 start_img = pygame.image.load("images/start_btn.png")
 exit_img = pygame.image.load("images/exit_btn.png")
+
+#load level up image
+levelup_img = pygame.image.load("images/level_up.png")
 
 # create button instances
 start_button = button.Button(width/8, height/2, start_img, 0.5)
@@ -69,6 +68,22 @@ while running:
         if exit_button.draw(screen):
             running = False
     else:
+
+        # animate enemy vehicle
+        car2_loc[1] += speed
+        if car2_loc[1] > height:
+            if random.randint(0, 1) == 0:
+                car2_loc.center = right_lane, -200
+            else:
+                car2_loc.center = left_lane, -200
+
+        counter += 5
+        if counter == 5000:
+            speed += 0.2
+            counter = 0
+            # print("level up", speed)
+            # screen.blit(level_up, (100, 100))
+
         # draw graphics
         grey = (50, 50, 50)
         pygame.draw.rect(
@@ -89,21 +104,6 @@ while running:
         screen.blit(car, car_loc)
         screen.blit(car2, car2_loc)
 
-        # animate enemy vehicle
-        car2_loc[1] += speed
-        if car2_loc[1] > height:
-            if random.randint(0,1) == 0:
-                car2_loc.center = right_lane, -200
-            else:
-                car2_loc.center = left_lane, -200
-
-        counter += 1
-        if counter == 5000:
-            speed += 0.2
-            counter = 0
-            print("level up", speed)
-            screen.blit(level_up, (100, 100))
-
         # end game
         if car_loc[0] == car2_loc[0] and car2_loc[1] > car_loc[1] - 250:
             print("Game Over")
@@ -112,22 +112,12 @@ while running:
     # event listeners
     for event in pygame.event.get():
         if event.type == KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                game_paused = True
             if event.key in [K_a, K_LEFT]:
                 car_loc = car_loc.move([-int(road_w/2), 0])
             if event.key in [K_d, K_RIGHT]:
                 car_loc = car_loc.move([+int(road_w/2), 0])
         if event.type == QUIT:
             running = False
-        if event.type == KEYDOWN:
-            if event.key in [K_a, K_LEFT]:
-                car_loc = car_loc.move([-int(road_w/2), 0])
-            if event.key in [K_d, K_RIGHT]:
-                car_loc = car_loc.move([+int(road_w/2), 0])
-
-
-
 
     pygame.display.update()
 
