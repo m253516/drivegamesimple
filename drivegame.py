@@ -4,6 +4,8 @@ import random
 import button
 
 pygame.init()
+clock = pygame.time.Clock()
+
 # creating the window
 size = width, height = (400,800)
 screen = pygame.display.set_mode(size)
@@ -21,6 +23,7 @@ roadmark_w = int(width/80)
 right_lane = width/2 + road_w/4
 left_lane = width/2 - road_w/4
 speed = 1
+level = 0
 
 # apply changes
 pygame.display.update()
@@ -54,7 +57,7 @@ counter = 0
 # game loop
 running = True
 while running:
-
+    clock.tick(500)
     bg_color = sand = (246, 215, 176)
     screen.fill(bg_color)
 
@@ -75,10 +78,11 @@ while running:
                 car2_loc.center = left_lane, -200
 
         # increase game difficulty as counter increases
-        counter += 1
-        print(counter)
-        if counter == 6000:
-            speed += 0.1
+        counter += 2
+        if counter == 5000:
+            level += 1
+            print(f"Level Up! Level {level}, Speed is {speed}.")
+            speed += .5
             counter = 0
             # print("level up", speed)
 
@@ -125,3 +129,5 @@ while running:
     pygame.display.update()
 
 pygame.quit()
+
+#Press Play!!!!
